@@ -4,9 +4,11 @@
 design interview question for software engineering jobs. So I decided to ask,
 how hard is it to actually build one?
 
-Turns out with AWS CDK, it's pretty easy, since you can define pretty much all
-of the infrastructure as code (a strategy known as IaC). Once deployed, this
-URL shortener lets you:
+Turns out with AWS CDK, it's pretty easy, since you can define all of the
+infrastructure as code - a strategy known as IaC. That is, if you just set up
+an AWS account (free tier should be enough) and run `cdk deploy`, you can have
+all of the AWS resources and endpoints up and running (and automatically
+scaling, since it's AWS). Once deployed, this URL shortener lets you:
 
 * create URLs by calling `/create?url=http://www.example.com`
 * visit URLs by calling `/visit/XXXXX`
@@ -23,7 +25,7 @@ production! :-)
 ## Setup and useful commands
 
 I recommend going through the tutorial for CDK on <https://cdkworkshop.com/> -
-it explains pretty much everything.
+it introduces the concepts much better than I could.
 
 * `npm run build`   compile typescript to js
 * `npm run watch`   watch for changes and compile
