@@ -1,11 +1,7 @@
 import * as cdk from "@aws-cdk/core";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
-import {
-  RestApi,
-  LambdaIntegration,
-  AuthorizationType,
-} from "@aws-cdk/aws-apigateway";
+import { RestApi, LambdaIntegration } from "@aws-cdk/aws-apigateway";
 
 export class UrlShortenerStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {

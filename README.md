@@ -1,31 +1,49 @@
 # Simple AWS URL Shortener
 
-"Design a URL shortener" is a frequently mentioned example of a system
-design interview question for software engineering jobs. So I decided to ask,
-how hard is it to actually build one?
+"Design a URL shortener" is a pretty common example of a system design
+interview question for software engineering jobs. So I decided to ask, how hard
+is it to actually build one using "infrastructure as code"?
 
-Turns out with AWS CDK, it's pretty easy, since you can define all of the
-infrastructure as code - a strategy known as IaC. That is, if you just set up
-an AWS account (free tier should be enough) and run `cdk deploy`, you can have
-all of the AWS resources and endpoints up and running (and automatically
-scaling, since it's AWS). Once deployed, this URL shortener lets you:
+## What's infrastructure as code and why do I care?
 
-* create URLs by calling `/create?url=http://www.example.com`
+Here's the idea. If we were actually going to make a URL shortening service
+to be used by millions of people, we would want to have servers, databases,
+and CDNs that could easily scale to the number of users, and that could be
+deployed in multiple regions. So in other words, we'd want to use a cloud
+computing platform - like AWS, Azure, or GCP.
+
+But it turns out assembling cloud services requires a lot of setup and
+configuration. The AWS console, for example, has hundreds of menus and options
+available. And choices aside, there is a lot of effort required in
+manually connecting components together and setting up permissions. Thus,
+**infrastructure as code (IaC) lets you define and deploy your cloud
+infrastructure just by writing code.** The CDK is Amazon's main tool for doing
+this with AWS.
+
+## So how hard is it?
+
+It turns out by installing a few command-line tools, setting up an AWS account
+(the free tier should be enough), and running `cdk deploy`, you can have all of
+the AWS resources and endpoints for a bare bones URL shortening service up and
+running in a few minutes! (And fortunately for me, it was only about 200 lines
+of code). Once deployed, this URL shortener lets you:
+
+* create URLs by calling `/create?url=http://www.example.com`, and
 * visit URLs by calling `/visit/XXXXX`
 
 The architecture consists of a AWS Gateway component, which proxy any REST API
 calls to two different AWS Lambda functions that can read and update from a
 DynamoDB table storing the URL mappings.
 
-I haven't added any of the complex backend pieces you might want in a complete
+I haven't added some of the complex backend pieces you might want in a complete
 service, like load balancers or caches, but those are left as an exercise for
 the reader. It should go without saying, but don't actually use this in
-production! :-)
+production! This was mostly just for fun. :-)
 
 ## Setup and useful commands
 
 I recommend going through the tutorial for CDK on <https://cdkworkshop.com/> -
-it introduces the concepts much better than I could.
+it introduces the main concepts much better than I could.
 
 * `npm run build`   compile typescript to js
 * `npm run watch`   watch for changes and compile
