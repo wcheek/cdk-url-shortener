@@ -20,13 +20,12 @@ manually connecting components together and setting up permissions. Thus,
 infrastructure just by writing code.** The CDK is Amazon's main tool for doing
 this with AWS.
 
-## So how hard is it?
+## So how easy is it?
 
-It turns out by installing a few command-line tools, setting up an AWS account
-(the free tier should be enough), and running `cdk deploy`, you can have all of
-the AWS resources and endpoints for a bare bones URL shortening service up and
-running in a few minutes! (And fortunately for me, it was only about 200 lines
-of code). Once deployed, this URL shortener lets you:
+By installing a few command-line tools, setting up an AWS account (the free
+tier should be enough), and running `cdk deploy`, you can have all of the AWS
+resources and endpoints for a bare bones URL shortening service up in just a few
+minutes! Once deployed, this URL shortener lets you:
 
 * create URLs by calling `/create?url=http://www.example.com`, and
 * visit URLs by calling `/visit/XXXXX`
@@ -35,10 +34,10 @@ The architecture consists of a AWS Gateway component, which proxy any REST API
 calls to two different AWS Lambda functions that can read and update from a
 DynamoDB table storing the URL mappings.
 
-I haven't added some of the complex backend pieces you might want in a complete
-service, like load balancers or caches, but those are left as an exercise for
-the reader. It should go without saying, but don't actually use this in
-production! This was mostly just for fun. :-)
+I haven't added any of the additional backend components you'd want in a full
+production service like load balancers or caches, but consider those as an
+exercise for the reader. This project was mostly for fun and just to get my feet
+wet with cloud deployments. :-)
 
 ## Setup and useful commands
 
