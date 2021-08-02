@@ -2,7 +2,7 @@
 
 "Design a URL shortener" is a pretty common example of a system design
 interview question for software engineering jobs. So I decided to ask, how hard
-is it to actually build one using "infrastructure as code"?
+is it to actually build one using "infrastructure as code"? 
 
 ## What's infrastructure as code and why do I care?
 
