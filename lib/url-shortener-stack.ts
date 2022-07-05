@@ -1,7 +1,6 @@
 import * as cdk from "@aws-cdk/core";
 import * as lambda from "@aws-cdk/aws-lambda";
 import * as dynamodb from "@aws-cdk/aws-dynamodb";
-import { RestApi, LambdaIntegration } from "@aws-cdk/aws-apigateway";
 
 export class UrlShortenerStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -13,6 +12,11 @@ export class UrlShortenerStack extends cdk.Stack {
         name: "websiteUrl",
         type: dynamodb.AttributeType.STRING,
       },
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+      //readCapacity: 1,
+      //writeCapacity: 1,
+      timeToLiveAttribute: "TTL",
     });
     table.addGlobalSecondaryIndex({
       indexName: "shortenedUrlIndex",
@@ -91,14 +95,6 @@ export class UrlShortenerStack extends cdk.Stack {
     new cdk.CfnOutput(this, "outputFuncUrlVisitLambda", {
       value: cfnFuncUrlVisitURLLambda.getAtt("FunctionUrl").toString(),
     });
-    // Define API Gateway RESt API resources backed by lambda functions
-    //const rootApi = new RestApi(this, "url-shortener-api");
-    //const createApi = rootApi.root.addResource("create");
-    //createApi.addMethod("GET", new LambdaIntegration(createUrlHandler));
-
-    //const visitApi = rootApi.root.addResource("visit");
-    //const visitItemApi = visitApi.addResource("{shortenedUrl}");
-    //visitItemApi.addMethod("GET", new LambdaIntegration(visitUrlHandler));
 
     // Grant DynamoDB permissions to the lambda functions
     table.grantReadWriteData(createUrlLambda);

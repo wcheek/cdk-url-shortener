@@ -38,11 +38,13 @@ exports.handler = async function (event) {
     };
   } else {
     const websiteUrl = response.Items[0].websiteUrl.S;
+    console.log("Website URL", websiteUrl);
+    splitURL = websiteUrl.split("?");
     return {
       statusCode: 301,
       headers: {
-        "Content-Type": "text/plain",
-        Location: websiteUrl,
+        "Content-Type": "text/xml",
+        Location: `${encodeURI(splitURL[0])}?${splitURL[1]}`,
       },
     };
   }
