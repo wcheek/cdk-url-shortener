@@ -38,13 +38,19 @@ exports.handler = async function (event) {
     };
   } else {
     const websiteUrl = response.Items[0].websiteUrl.S;
-    console.log("Website URL", websiteUrl);
+    console.log("Website URL no encoding", websiteUrl);
     splitURL = websiteUrl.split("?");
+    const encoded_website_url = `${encodeURI(splitURL[0])
+      .replace("&", "%26")
+      .replace("(", "%28")
+      .replace(")", "%29")
+      .replace(/,/g, "%2C")}?${splitURL[1]}`;
+    console.log("Encoded website url", encoded_website_url);
     return {
       statusCode: 301,
       headers: {
         "Content-Type": "text/xml",
-        Location: `${encodeURI(splitURL[0])}?${splitURL[1]}`,
+        Location: encoded_website_url,
       },
     };
   }
