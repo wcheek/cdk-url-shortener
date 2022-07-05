@@ -3,7 +3,7 @@ const { DynamoDB } = require("aws-sdk");
 exports.handler = async function (event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
 
-  const shortenedUrl = (event.pathParameters || {}).shortenedUrl;
+  const shortenedUrl = (event.queryStringParameters || {}).shortenedUrl;
   if (!shortenedUrl) {
     return {
       statusCode: 400,

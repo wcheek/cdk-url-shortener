@@ -23,7 +23,7 @@ export class UrlShortenerStack extends cdk.Stack {
     });
 
     // defines an AWS Lambda instance
-    const createUrlHandler = new lambda.Function(this, "CreateUrlHandler", {
+    const createUrlLambda = new lambda.Function(this, "CreateUrlHandler", {
       runtime: lambda.Runtime.NODEJS_12_X, // execution environment
       code: lambda.Code.fromAsset("create-url-lambda"), // directory to load code
       handler: "index.handler", // file is "index", function is "handler"
@@ -34,30 +34,31 @@ export class UrlShortenerStack extends cdk.Stack {
 
     const cfnFuncUrlCreateURLLambda = new cdk.CfnResource(
       this,
-      "lambdaFuncUrlCreate",
+      "cfnFuncUrlCreateURLLambda",
       {
         type: "AWS::Lambda::Url",
         properties: {
           Cors: { AllowOrigins: ["*"] },
-          TargetFunctionArn: createUrlHandler.functionArn,
+          AuthType: "NONE",
+          TargetFunctionArn: createUrlLambda.functionArn,
         },
       }
     );
-    new cdk.CfnResource(this, "funcURLPermissionCreate", {
+    new cdk.CfnResource(this, "funcURLPermissionCreateLambda", {
       type: "AWS::Lambda::Permission",
       properties: {
-        FunctionName: createUrlHandler.functionName,
+        FunctionName: createUrlLambda.functionName,
         Principal: "*",
         Action: "lambda:InvokeFunctionUrl",
         FunctionUrlAuthType: "NONE",
       },
     });
-    new cdk.CfnOutput(this, "createURLLambda", {
+    new cdk.CfnOutput(this, "outputFuncUrlCreateLambda", {
       value: cfnFuncUrlCreateURLLambda.getAtt("FunctionUrl").toString(),
     });
 
     // defines another AWS Lambda instance
-    const visitUrlHandler = new lambda.Function(this, "VisitUrlHandler", {
+    const visitUrlLambda = new lambda.Function(this, "VisitUrlHandler", {
       runtime: lambda.Runtime.NODEJS_12_X,
       code: lambda.Code.fromAsset("visit-url-lambda"),
       handler: "index.handler",
@@ -66,28 +67,29 @@ export class UrlShortenerStack extends cdk.Stack {
       },
     });
 
-    const cfnFuncUrlVisitURLHandler = new cdk.CfnResource(
+    const cfnFuncUrlVisitURLLambda = new cdk.CfnResource(
       this,
-      "lambdaFuncUrlVisit",
+      "cfnFuncUrlVisitURLHandler",
       {
         type: "AWS::Lambda::Url",
         properties: {
           Cors: { AllowOrigins: ["*"] },
-          TargetFunctionArn: createUrlHandler.functionArn,
+          AuthType: "NONE",
+          TargetFunctionArn: visitUrlLambda.functionArn,
         },
       }
     );
-    new cdk.CfnResource(this, "funcURLPermissionVisit", {
+    new cdk.CfnResource(this, "funcURLPermissionVisitLambda", {
       type: "AWS::Lambda::Permission",
       properties: {
-        FunctionName: visitUrlHandler.functionName,
+        FunctionName: visitUrlLambda.functionName,
         Principal: "*",
         Action: "lambda:InvokeFunctionUrl",
         FunctionUrlAuthType: "NONE",
       },
     });
-    new cdk.CfnOutput(this, "createURLLambdaVisit", {
-      value: cfnFuncUrlVisitURLHandler.getAtt("FunctionUrl").toString(),
+    new cdk.CfnOutput(this, "outputFuncUrlVisitLambda", {
+      value: cfnFuncUrlVisitURLLambda.getAtt("FunctionUrl").toString(),
     });
     // Define API Gateway RESt API resources backed by lambda functions
     //const rootApi = new RestApi(this, "url-shortener-api");
@@ -99,7 +101,7 @@ export class UrlShortenerStack extends cdk.Stack {
     //visitItemApi.addMethod("GET", new LambdaIntegration(visitUrlHandler));
 
     // Grant DynamoDB permissions to the lambda functions
-    table.grantReadWriteData(createUrlHandler);
-    table.grantReadData(visitUrlHandler);
+    table.grantReadWriteData(createUrlLambda);
+    table.grantReadData(visitUrlLambda);
   }
 }
