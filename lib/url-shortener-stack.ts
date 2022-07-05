@@ -32,6 +32,30 @@ export class UrlShortenerStack extends cdk.Stack {
       },
     });
 
+    const cfnFuncUrlCreateURLLambda = new cdk.CfnResource(
+      this,
+      "lambdaFuncUrlCreate",
+      {
+        type: "AWS::Lambda::Url",
+        properties: {
+          Cors: { AllowOrigins: ["*"] },
+          TargetFunctionArn: createUrlHandler.functionArn,
+        },
+      }
+    );
+    new cdk.CfnResource(this, "funcURLPermissionCreate", {
+      type: "AWS::Lambda::Permission",
+      properties: {
+        FunctionName: createUrlHandler.functionName,
+        Principal: "*",
+        Action: "lambda:InvokeFunctionUrl",
+        FunctionUrlAuthType: "NONE",
+      },
+    });
+    new cdk.CfnOutput(this, "createURLLambda", {
+      value: cfnFuncUrlCreateURLLambda.getAtt("FunctionUrl").toString(),
+    });
+
     // defines another AWS Lambda instance
     const visitUrlHandler = new lambda.Function(this, "VisitUrlHandler", {
       runtime: lambda.Runtime.NODEJS_12_X,
@@ -42,14 +66,37 @@ export class UrlShortenerStack extends cdk.Stack {
       },
     });
 
+    const cfnFuncUrlVisitURLHandler = new cdk.CfnResource(
+      this,
+      "lambdaFuncUrlVisit",
+      {
+        type: "AWS::Lambda::Url",
+        properties: {
+          Cors: { AllowOrigins: ["*"] },
+          TargetFunctionArn: createUrlHandler.functionArn,
+        },
+      }
+    );
+    new cdk.CfnResource(this, "funcURLPermissionVisit", {
+      type: "AWS::Lambda::Permission",
+      properties: {
+        FunctionName: visitUrlHandler.functionName,
+        Principal: "*",
+        Action: "lambda:InvokeFunctionUrl",
+        FunctionUrlAuthType: "NONE",
+      },
+    });
+    new cdk.CfnOutput(this, "createURLLambdaVisit", {
+      value: cfnFuncUrlVisitURLHandler.getAtt("FunctionUrl").toString(),
+    });
     // Define API Gateway RESt API resources backed by lambda functions
-    const rootApi = new RestApi(this, "url-shortener-api");
-    const createApi = rootApi.root.addResource("create");
-    createApi.addMethod("GET", new LambdaIntegration(createUrlHandler));
+    //const rootApi = new RestApi(this, "url-shortener-api");
+    //const createApi = rootApi.root.addResource("create");
+    //createApi.addMethod("GET", new LambdaIntegration(createUrlHandler));
 
-    const visitApi = rootApi.root.addResource("visit");
-    const visitItemApi = visitApi.addResource("{shortenedUrl}");
-    visitItemApi.addMethod("GET", new LambdaIntegration(visitUrlHandler));
+    //const visitApi = rootApi.root.addResource("visit");
+    //const visitItemApi = visitApi.addResource("{shortenedUrl}");
+    //visitItemApi.addMethod("GET", new LambdaIntegration(visitUrlHandler));
 
     // Grant DynamoDB permissions to the lambda functions
     table.grantReadWriteData(createUrlHandler);
