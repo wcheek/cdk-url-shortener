@@ -16,13 +16,20 @@ export class UrlShortenerStack extends cdk.Stack {
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       //readCapacity: 1,
       //writeCapacity: 1,
-      timeToLiveAttribute: "TTL",
+      timeToLiveAttribute: "expTime",
     });
     table.addGlobalSecondaryIndex({
       indexName: "shortenedUrlIndex",
       partitionKey: {
         name: "shortenedUrl",
         type: dynamodb.AttributeType.STRING,
+      },
+    });
+    table.addGlobalSecondaryIndex({
+      indexName: "expTime",
+      partitionKey: {
+        name: "expTime",
+        type: dynamodb.AttributeType.NUMBER,
       },
     });
 
@@ -32,7 +39,7 @@ export class UrlShortenerStack extends cdk.Stack {
       code: lambda.Code.fromAsset("create-url-lambda"), // directory to load code
       handler: "index.handler", // file is "index", function is "handler"
       environment: {
-        URL_TABLE_NAME: table.tableName,
+        URL_TABLE_NAME: table?.tableName ? table?.tableName : "",
       },
     });
 
@@ -67,7 +74,7 @@ export class UrlShortenerStack extends cdk.Stack {
       code: lambda.Code.fromAsset("visit-url-lambda"),
       handler: "index.handler",
       environment: {
-        URL_TABLE_NAME: table.tableName,
+        URL_TABLE_NAME: table?.tableName ? table?.tableName : "",
       },
     });
 

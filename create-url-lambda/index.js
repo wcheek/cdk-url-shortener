@@ -45,12 +45,16 @@ exports.handler = async function (event) {
 
   if (response.Items.length === 0) {
     const shortenedUrl = generateId(5);
+    const date = new Date();
+    // Set TTL to be 10 minutes
+    const expirationTime = Math.floor(date.getTime() / 1000) + 60 * 10;
     await dynamo
       .putItem({
         TableName: process.env.URL_TABLE_NAME,
         Item: {
           websiteUrl: { S: urlParam },
           shortenedUrl: { S: shortenedUrl },
+          expTime: { N: expirationTime.toString() },
         },
       })
       .promise();

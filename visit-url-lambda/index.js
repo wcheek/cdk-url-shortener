@@ -30,11 +30,17 @@ exports.handler = async function (event) {
     .promise();
   console.log("DynamoDB response:", JSON.stringify(response, undefined, 2));
 
+  // Want access denied for demonstration purposes
+  //return {
+  //statusCode: 403,
+  //headers: { "Content-Type": "text/plain" },
+  //body: "Access Denied",
+  //};
   if (response.Items.length === 0) {
     return {
       statusCode: 400,
       headers: { "Content-Type": "text/plain" },
-      body: `${shortenedUrl} is not associated with any URL.\n`,
+      body: "Sorry, this link has expired.",
     };
   } else {
     const websiteUrl = response.Items[0].websiteUrl.S;
