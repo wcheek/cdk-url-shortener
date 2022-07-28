@@ -9,9 +9,10 @@ export class UrlShortenerStack extends cdk.Stack {
     // defines a DynamoDB table
     const table = new dynamodb.Table(this, "UrlTable", {
       partitionKey: {
-        name: "websiteUrl",
+        name: "sessionId",
         type: dynamodb.AttributeType.STRING,
       },
+      sortKey: { name: "time", type: dynamodb.AttributeType.NUMBER },
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       //readCapacity: 1,
@@ -25,13 +26,13 @@ export class UrlShortenerStack extends cdk.Stack {
         type: dynamodb.AttributeType.STRING,
       },
     });
-    table.addGlobalSecondaryIndex({
-      indexName: "expTime",
-      partitionKey: {
-        name: "expTime",
-        type: dynamodb.AttributeType.NUMBER,
-      },
-    });
+    // table.addGlobalSecondaryIndex({
+    //   indexName: "expTime",
+    //   partitionKey: {
+    //     name: "expTime",
+    //     type: dynamodb.AttributeType.NUMBER,
+    //   },
+    // });
 
     // defines an AWS Lambda instance
     const createUrlLambda = new lambda.Function(this, "CreateUrlHandler", {
