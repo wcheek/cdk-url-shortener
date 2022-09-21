@@ -9,10 +9,9 @@ export class UrlShortenerStack extends cdk.Stack {
     // defines a DynamoDB table
     const table = new dynamodb.Table(this, "UrlTable", {
       partitionKey: {
-        name: "sessionId",
+        name: "websiteUrl",
         type: dynamodb.AttributeType.STRING,
       },
-      sortKey: { name: "time", type: dynamodb.AttributeType.NUMBER },
       removalPolicy: cdk.RemovalPolicy.DESTROY,
       billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
       //readCapacity: 1,
@@ -26,17 +25,17 @@ export class UrlShortenerStack extends cdk.Stack {
         type: dynamodb.AttributeType.STRING,
       },
     });
-    // table.addGlobalSecondaryIndex({
-    //   indexName: "expTime",
-    //   partitionKey: {
-    //     name: "expTime",
-    //     type: dynamodb.AttributeType.NUMBER,
-    //   },
-    // });
+    table.addGlobalSecondaryIndex({
+      indexName: "expTime",
+      partitionKey: {
+        name: "expTime",
+        type: dynamodb.AttributeType.NUMBER,
+      },
+    });
 
     // defines an AWS Lambda instance
     const createUrlLambda = new lambda.Function(this, "CreateUrlHandler", {
-      runtime: lambda.Runtime.NODEJS_12_X, // execution environment
+      runtime: lambda.Runtime.NODEJS_14_X, // execution environment
       code: lambda.Code.fromAsset("create-url-lambda"), // directory to load code
       handler: "index.handler", // file is "index", function is "handler"
       environment: {
@@ -71,7 +70,7 @@ export class UrlShortenerStack extends cdk.Stack {
 
     // defines another AWS Lambda instance
     const visitUrlLambda = new lambda.Function(this, "VisitUrlHandler", {
-      runtime: lambda.Runtime.NODEJS_12_X,
+      runtime: lambda.Runtime.NODEJS_14_X,
       code: lambda.Code.fromAsset("visit-url-lambda"),
       handler: "index.handler",
       environment: {

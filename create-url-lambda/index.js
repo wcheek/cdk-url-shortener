@@ -15,8 +15,9 @@ function generateId(length) {
 exports.handler = async function (event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
 
-  const urlParam = `${(event.queryStringParameters || {}).url}?${(event.headers || {}).auth
-    }`;
+  const urlParam = `${(event.queryStringParameters || {}).url}?${
+    (event.headers || {}).auth
+  }`;
   if (!urlParam) {
     return {
       statusCode: 400,
@@ -46,14 +47,11 @@ exports.handler = async function (event) {
     const shortenedUrl = generateId(5);
     const date = new Date();
     // Set TTL to be 10 minutes
-    currentTime = Math.floor(date.getTime() / 1000)
-    const expirationTime = currentTime + 60 * 10;
+    const expirationTime = Math.floor(date.getTime() / 1000) + 60 * 10;
     await dynamo
       .putItem({
         TableName: process.env.URL_TABLE_NAME,
         Item: {
-          sessionId: { S: sessionId },
-          time: { N: currentTime },
           websiteUrl: { S: urlParam },
           shortenedUrl: { S: shortenedUrl },
           expTime: { N: expirationTime.toString() },

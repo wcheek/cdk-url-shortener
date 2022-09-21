@@ -1,0 +1,41 @@
+{
+    "version": "2.0",
+    "routeKey": "$default",
+    "rawPath": "/create",
+    "rawQueryString": "url=https://lex-documents-bucket.s3.amazonaws.com/Software/download/RGBR/RGBR_E/sp/NRM_dev75_v6.0.7.jic",
+    "headers": {
+        "x-amzn-tls-cipher-suite": "ECDHE-RSA-AES128-GCM-SHA256",
+        "x-amzn-tls-version": "TLSv1.2",
+        "x-amzn-trace-id": "Root=1-62e1f6fd-2f59c7824e777ce21abe4b4d",
+        "x-forwarded-proto": "https",
+        "auth": "AWSAccessKeyId=ASIARJRA6SYZMKM4ZHWH&Signature=vPgmxGagPHVHwG%2B9U3Hiq8fi0R4%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEJr%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaDmFwLW5vcnRoZWFzdC0xIkYwRAIgE4CO9mmmQeffrqVh5lrPPTxXgG%2BowaWgt6KUgDXowQgCIFwrjOp2CJLM38neLf0u0L%2Fh1iIha6FmOnMTh4OisBRQKusECOP%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEQARoMMDg5MTg5Njg0Nzg2IgydT2yp958yLaPNTT8qvwQ%2FY9HOxoN9UvklNUw6EVOKY0M9QllBstgY6AypKKA8zrdGvLNQs9YdlL%2BwnmwAF60NEqSON1QA%2BspnF20MU4Alg%2Bf9Ttfwh3A8Ycp0gWyEaZMjvTFZzw4MzTr5skRqd6UYCw40FAlkudMP7Wf1AP096kKH6qMKCkdgeuOpN35Qnt6ua88eviOHLWa2v21Cyawfd2cu4cCoyJImv66gkpw7s1lWicmSMHY4oCyGLG1PnI%2FxpWHcIcEEXMhXWuPxkes4aFpZ6q5OV57jpHhdRBXUPuWM7CisM%2BZHe8MvSBGpE8JGoBNIFER%2F85SUmMawVzfC2gWA3IpvXq4FCQgGUX1ezqeQFHqBJktj75joP6K5%2BvK2IaX9UFArg7ut3%2BuhXvNdXfR8ulhkKrrqOn4mp5qtJrCJPhnhXPTNxolxhRv4%2BvGeA2V4IHbdxzcoUAHlSvRMnTQ%2FViFvbBzU6IboK8aARD45MdjGoWyrJm4F%2FfM%2BmdtuBtRDbwiR%2FC59Q6I5mkkuJ5BfNfUV3bz7y0e7QQJKBGSPDrC88kgs0stQhWVNaPOKXPQ48Eut1XYY68TeXErNnj4Xz%2Ft4Nbr1JdKFALsS5c2dFvS3JbY4NNgtKN%2Bb5eQjsA39JzWmNs9pnUseBLwUreD%2BHk3ygCqWVbQX5XbMmywU5EiQB3YYE5PIbd4IQdojc7azsJ9f2JxvKfeVZrlOBBo3Ebl85egmmBAotzQI0Y7lD31RuSPiJCzrIJdB0hs2n%2B0j1%2FGk70dnJDC%2B4DDm44eXBjqGAgQiWm6HB2cCLB9VqNdg%2B0zj%2BjCiK%2FY0gMKKYVmBbcDtt6eZ9PYhf8Am20hkLdUpululFSlT%2B8FYTBjeFXKcOqARGWiMdlRBtIZ5S4yi%2BGxcr6%2B1Y86nmBfyF2dUFCQ1ZOMRVyv3t2%2BT94sV4JKCl%2BxJYC2iKqnDwfr5rUSb9l1DJ2Dd35fliOwWOUfJT4ekizBtwTigRlHNR%2FjMD8f8QMP8%2BLsfeq3XSziC%2ByHk7LUO2zUq8xtP1GrF%2B%2FUQHo6bIECePyJPZZnfGIuMKcCbmmJhIFRLzgqhaThZo1fUi17fAEh8MhTQ4X20Qyj8wbINb39S5MVO6UsfRQ8PVIl%2B0mYxiOjtXQQ%3D&Expires=1658976597",
+        "host": "waxuz6hkxyy67mecyq5eah5zku0kzjdf.lambda-url.ap-northeast-1.on.aws",
+        "x-forwarded-port": "443",
+        "x-forwarded-for": "18.179.222.168",
+        "accept-encoding": "gzip, deflate",
+        "accept": "*/*",
+        "user-agent": "python-requests/2.27.1"
+    },
+    "queryStringParameters": {
+        "url": "https://lex-documents-bucket.s3.amazonaws.com/Software/download/RGBR/RGBR_E/sp/NRM_dev75_v6.0.7.jic"
+    },
+    "requestContext": {
+        "accountId": "anonymous",
+        "apiId": "waxuz6hkxyy67mecyq5eah5zku0kzjdf",
+        "domainName": "waxuz6hkxyy67mecyq5eah5zku0kzjdf.lambda-url.ap-northeast-1.on.aws",
+        "domainPrefix": "waxuz6hkxyy67mecyq5eah5zku0kzjdf",
+        "http": {
+            "method": "GET",
+            "path": "/create",
+            "protocol": "HTTP/1.1",
+            "sourceIp": "18.179.222.168",
+            "userAgent": "python-requests/2.27.1"
+        },
+        "requestId": "477fff3c-20c9-4479-8b48-e9209355c9a9",
+        "routeKey": "$default",
+        "stage": "$default",
+        "time": "28/Jul/2022:02:39:57 +0000",
+        "timeEpoch": 1658975997398
+    },
+    "isBase64Encoded": false
+}
