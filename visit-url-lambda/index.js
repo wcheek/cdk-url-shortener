@@ -47,10 +47,11 @@ exports.handler = async function (event) {
     console.log("Website URL no encoding", websiteUrl);
     splitURL = websiteUrl.split("?");
     const encoded_website_url = `${encodeURI(splitURL[0])
-      .replace("&", "%26")
-      .replace("(", "%28")
-      .replace(")", "%29")
-      .replace(/,/g, "%2C")}?${splitURL[1]}`;
+      .replace(/\&/g, "%26")
+      .replace(/\(/g, "%28")
+      .replace(/\)/g, "%29")
+      .replace(/\,/g, "%2C")
+      .replace(/\+/g, "%20")}?${splitURL[1]}`;
     console.log("Encoded website url", encoded_website_url);
     return {
       statusCode: 301,
