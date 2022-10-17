@@ -51,7 +51,7 @@ exports.handler = async function (event) {
       .replace(/\(/g, "%28")
       .replace(/\)/g, "%29")
       .replace(/\,/g, "%2C")
-      .replace(/\+/g, "%20")}?${splitURL[1]}`;
+      .replace(/\+/g, "%2B")}?${splitURL[1]}`;
     console.log("Encoded website url", encoded_website_url);
     return {
       statusCode: 301,
