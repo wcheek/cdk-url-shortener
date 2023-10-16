@@ -1,4 +1,4 @@
-const { DynamoDB } = require("aws-sdk");
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
 
 // probability of collisions should be pretty low!
 function generateId(length) {
@@ -46,8 +46,8 @@ exports.handler = async function (event) {
   if (response.Items.length === 0) {
     const shortenedUrl = generateId(5);
     const date = new Date();
-    // Set TTL to be 30 minutes
-    const expirationTime = Math.floor(date.getTime() / 1000) + 60 * 30;
+    // Set TTL to be 1 day from now
+    const expirationTime = Math.floor(date.getTime() / 1000) + 60 * 60 * 24;
     await dynamo
       .putItem({
         TableName: process.env.URL_TABLE_NAME,

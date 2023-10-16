@@ -41,6 +41,7 @@ export class UrlShortenerStack extends cdk.Stack {
       environment: {
         URL_TABLE_NAME: table?.tableName ? table?.tableName : "",
       },
+      memorySize: 1024,
     });
 
     const cfnFuncUrlCreateURLLambda = new cdk.CfnResource(
@@ -53,7 +54,7 @@ export class UrlShortenerStack extends cdk.Stack {
           AuthType: "NONE",
           TargetFunctionArn: createUrlLambda.functionArn,
         },
-      }
+      },
     );
     new cdk.CfnResource(this, "funcURLPermissionCreateLambda", {
       type: "AWS::Lambda::Permission",
@@ -76,6 +77,7 @@ export class UrlShortenerStack extends cdk.Stack {
       environment: {
         URL_TABLE_NAME: table?.tableName ? table?.tableName : "",
       },
+      memorySize: 1024,
     });
 
     const cfnFuncUrlVisitURLLambda = new cdk.CfnResource(
@@ -88,7 +90,7 @@ export class UrlShortenerStack extends cdk.Stack {
           AuthType: "NONE",
           TargetFunctionArn: visitUrlLambda.functionArn,
         },
-      }
+      },
     );
     new cdk.CfnResource(this, "funcURLPermissionVisitLambda", {
       type: "AWS::Lambda::Permission",
