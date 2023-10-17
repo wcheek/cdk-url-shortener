@@ -1,4 +1,4 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
 // probability of collisions should be pretty low!
 function generateId(length) {
   let res = "";
@@ -11,7 +11,7 @@ function generateId(length) {
   return res;
 }
 
-exports.handler = async function (event) {
+export async function handler(event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
 
   const urlParam = `${(event.queryStringParameters || {}).url}?${
@@ -26,20 +26,18 @@ exports.handler = async function (event) {
   }
 
   // create AWS DynamoDB client
-  const dynamo = new DynamoDBClient();
+  const dynamo = new DynamoDB();
 
   // check if URL is already shortened
-  const response = await dynamo
-    .query({
-      TableName: process.env.URL_TABLE_NAME,
-      KeyConditionExpression: "websiteUrl = :websiteUrl",
-      ExpressionAttributeValues: {
-        ":websiteUrl": {
-          S: urlParam,
-        },
+  const response = await dynamo.query({
+    TableName: process.env.URL_TABLE_NAME,
+    KeyConditionExpression: "websiteUrl = :websiteUrl",
+    ExpressionAttributeValues: {
+      ":websiteUrl": {
+        S: urlParam,
       },
-    })
-    .promise();
+    },
+  });
   console.log("DynamoDB response:", JSON.stringify(response, undefined, 2));
 
   if (response.Items.length === 0) {
@@ -47,16 +45,14 @@ exports.handler = async function (event) {
     const date = new Date();
     // Set TTL to be 1 day from now
     const expirationTime = Math.floor(date.getTime() / 1000) + 60 * 60 * 24;
-    await dynamo
-      .putItem({
-        TableName: process.env.URL_TABLE_NAME,
-        Item: {
-          websiteUrl: { S: urlParam },
-          shortenedUrl: { S: shortenedUrl },
-          expTime: { N: expirationTime.toString() },
-        },
-      })
-      .promise();
+    await dynamo.putItem({
+      TableName: process.env.URL_TABLE_NAME,
+      Item: {
+        websiteUrl: { S: urlParam },
+        shortenedUrl: { S: shortenedUrl },
+        expTime: { N: expirationTime.toString() },
+      },
+    });
 
     return {
       statusCode: 200,
@@ -72,4 +68,4 @@ exports.handler = async function (event) {
       //body: `The url ${urlParam} has already been shortened to ${shortenedUrl}.\n`,
     };
   }
-};
+}

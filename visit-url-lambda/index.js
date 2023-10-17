@@ -1,6 +1,6 @@
-const AWS = require("aws-sdk");
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
 
-exports.handler = async function (event) {
+export async function handler(event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
 
   const shortenedUrl = (event.queryStringParameters || {}).shortenedUrl;
@@ -13,21 +13,19 @@ exports.handler = async function (event) {
   }
 
   // create AWS DynamoDB client
-  const dynamo = new AWS.DynamoDB();
+  const dynamo = new DynamoDB();
 
   // check if shortened URL is valid
-  const response = await dynamo
-    .query({
-      TableName: process.env.URL_TABLE_NAME,
-      IndexName: "shortenedUrlIndex",
-      KeyConditionExpression: "shortenedUrl = :shortenedUrl",
-      ExpressionAttributeValues: {
-        ":shortenedUrl": {
-          S: shortenedUrl,
-        },
+  const response = await dynamo.query({
+    TableName: process.env.URL_TABLE_NAME,
+    IndexName: "shortenedUrlIndex",
+    KeyConditionExpression: "shortenedUrl = :shortenedUrl",
+    ExpressionAttributeValues: {
+      ":shortenedUrl": {
+        S: shortenedUrl,
       },
-    })
-    .promise();
+    },
+  });
   console.log("DynamoDB response:", JSON.stringify(response, undefined, 2));
 
   // Want access denied for demonstration purposes
@@ -61,4 +59,4 @@ exports.handler = async function (event) {
       },
     };
   }
-};
+}
