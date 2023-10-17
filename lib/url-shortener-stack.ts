@@ -1,6 +1,6 @@
-import * as cdk from "@aws-cdk/core";
-import * as lambda from "@aws-cdk/aws-lambda";
-import * as dynamodb from "@aws-cdk/aws-dynamodb";
+import * as cdk from "aws-cdk-lib";
+import * as lambda from "aws-cdk-lib/aws-lambda";
+import * as dynamodb from "aws-cdk-lib/aws-dynamodb";
 
 export class UrlShortenerStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
@@ -35,7 +35,7 @@ export class UrlShortenerStack extends cdk.Stack {
 
     // defines an AWS Lambda instance
     const createUrlLambda = new lambda.Function(this, "CreateUrlHandler", {
-      runtime: lambda.Runtime.NODEJS_16_X, // execution environment
+      runtime: lambda.Runtime.NODEJS_18_X, // execution environment
       code: lambda.Code.fromAsset("create-url-lambda"), // directory to load code
       handler: "index.handler", // file is "index", function is "handler"
       environment: {
@@ -71,7 +71,7 @@ export class UrlShortenerStack extends cdk.Stack {
 
     // defines another AWS Lambda instance
     const visitUrlLambda = new lambda.Function(this, "VisitUrlHandler", {
-      runtime: lambda.Runtime.NODEJS_16_X,
+      runtime: lambda.Runtime.NODEJS_18_X,
       code: lambda.Code.fromAsset("visit-url-lambda"),
       handler: "index.handler",
       environment: {
