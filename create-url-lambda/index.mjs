@@ -1,5 +1,4 @@
-import { DynamoDB } from "@aws-sdk/client-dynamodb";
-
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 // probability of collisions should be pretty low!
 function generateId(length) {
   let res = "";
@@ -27,7 +26,7 @@ exports.handler = async function (event) {
   }
 
   // create AWS DynamoDB client
-  const dynamo = new DynamoDB();
+  const dynamo = new DynamoDBClient();
 
   // check if URL is already shortened
   const response = await dynamo

@@ -1,4 +1,4 @@
-import { DynamoDB } from "@aws-sdk/client-dynamodb";
+const AWS = require("aws-sdk");
 
 exports.handler = async function (event) {
   console.log("request:", JSON.stringify(event, undefined, 2));
@@ -13,7 +13,7 @@ exports.handler = async function (event) {
   }
 
   // create AWS DynamoDB client
-  const dynamo = new DynamoDB();
+  const dynamo = new AWS.DynamoDB();
 
   // check if shortened URL is valid
   const response = await dynamo
@@ -45,7 +45,7 @@ exports.handler = async function (event) {
   } else {
     const websiteUrl = response.Items[0].websiteUrl.S;
     console.log("Website URL no encoding", websiteUrl);
-    splitURL = websiteUrl.split("?");
+    let splitURL = websiteUrl.split("?");
     const encoded_website_url = `${encodeURI(splitURL[0])
       .replace(/\&/g, "%26")
       .replace(/\(/g, "%28")
